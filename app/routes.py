@@ -168,3 +168,5 @@ def reset_password(token):
         db.session.commit()
         return redirect(url_for('login'))
     return render_template('reset_password.html', form=form)
+    return render_template('index.html', title='Home', posts=posts)
+
