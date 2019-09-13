@@ -1,4 +1,6 @@
 python3 -m venv venv
+source venv/bin/activate
+export FLASK_APP=microblog.py
 
 
 flask db init
