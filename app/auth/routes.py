@@ -12,7 +12,7 @@ from app.auth.email import send_password_reset_email
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
-    form = LoginForm();
+    form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
@@ -26,11 +26,11 @@ def login():
     return render_template('auth/login.html', title=_('Sign In'), form=form)
 
 @bp.route('/logout')
-def logout();
+def logout():
     logout_user()
     return render_template(url_for('main.index'))
 
-@bp.route('/register')
+@bp.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
@@ -44,7 +44,7 @@ def register():
         return redirect(url_for('auth.login'))
     return render_template('auth/register.html', title=_('Register'), form=form)
 
-@bp.register('/reset_password_request')
+@bp.route('/reset_password_request', methods=['GET', 'POST'])
 def reset_password_request():
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
@@ -57,7 +57,7 @@ def reset_password_request():
         return redirect(url_for('auth.login'))
     return render_template('auth/reset_password_request.html', title=_('Reset Password'),form=form)
 
-@bp.route('/reset_password/<token>')
+@bp.route('/reset_password/<token>', methods=['GET', 'POST'])
 def reset_password():
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))

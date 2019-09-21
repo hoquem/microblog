@@ -1,29 +1,26 @@
 import logging
 from logging.handlers import SMTPHandler, RotatingFileHandler
 import os
-from flask import Flask
+from flask import Flask, request, current_app
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_mail import Mail
 from flask_bootstrap import Bootstrap
-from config import Config
 from flask_moment import Moment
 from flask_babel import Babel
-from flask import request
 from flask_babel import lazy_gettext as _l
-from app.errors import bp as errors_bp
-from app.auth import bp as auth_bp
+from config import Config
 
 db = SQLAlchemy()
 migrate = Migrate()
 login = LoginManager()
-login.login_view = 'login'
+login.login_view = 'auth.login'
 login.login_message = _l('Please log in to access this page.')
 mail = Mail()
 bootstrap = Bootstrap()
 moment = Moment()
-babel - Babel()
+babel = Babel()
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -37,8 +34,14 @@ def create_app(config_class=Config):
     moment.init_app(app)
     babel.init_app(app)
 
-    app.register_blueprint(errors_bp)
-    app.register_blueprint(auth_bp, url_prefix='/auth')
+    from app.errors import bp as bp_errors
+    app.register_blueprint(bp_errors)
+
+    from app.auth import bp as bp_auth
+    app.register_blueprint(bp_auth, url_prefix='/auth')
+
+    from app.main import bp as bp_main
+    app.register_blueprint(bp_main)
 
     if not app.debug and not app.testing:
         if app.config['MAIL_SERVER']:
@@ -70,8 +73,8 @@ def create_app(config_class=Config):
 
     return app
 
-@babel.localselector
+@babel.localeselector
 def get_locale():
-    return request.accept_languages.best_match(app.confg['LANGUAGES'])
+    return request.accept_languages.best_match(current_app.config['LANGUAGES'])
 
-from app import routes, models
+from app import models
