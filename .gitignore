@@ -1,5 +1,4 @@
 app.db
-migrations/
 logs/
 .DS_Store
 
