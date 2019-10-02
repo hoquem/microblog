@@ -1,12 +1,3 @@
-# microblog
+# Welcome to Microblog!
 
-
-pip install -U pylint
-pip install flask-babel
-
-pybabel extract -F babel.cfg -k _l -o messages.pot .
-pybabel init -i messages.pot -d app/translations -l es
-pybabel compile -d app/translations
-
-pybabel extract -F babel.cfg -k _l -o messages.pot .
-pybabel update -i messages.pot -d app/translations
+This is an example application featured in my [Flask Mega-Tutorial](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world). See the tutorial for instructions on how to work with it.
