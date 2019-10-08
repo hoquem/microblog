@@ -1,8 +1,22 @@
 python3 -m venv venv
 source venv/bin/activate
 export FLASK_APP=microblog.py
+export MS_TRANSLATOR_KEY=31f20ee9682646e59ed8e5b2d9d45470
 
 
 flask db init
 flask db migrate -m "user table"
 flask db upgrade
+
+
+root Alima1234!
+ubuntu Y@min123!
+mysql test123
+
+
+(venv) $ git pull                              # download the new version
+(venv) $ sudo supervisorctl stop microblog     # stop the current server
+(venv) $ flask db upgrade                      # upgrade the database
+(venv) $ flask translate compile               # upgrade the translations
+(venv) $ sudo supervisorctl start microblog    # start a new server
+
